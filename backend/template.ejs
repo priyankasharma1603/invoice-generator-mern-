@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        /* Add styling as per the required invoice format */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+            font-size: 16px;
+            line-height: 24px;
+            color: #555;
+        }
+        .invoice-table {
+            width: 100%;
+            line-height: inherit;
+            text-align: left;
+        }
+        .invoice-table th, .invoice-table td {
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0" class="invoice-table">
+            <tr>
+                <td colspan="2">
+                    <h2>Invoice</h2>
+                    <strong>Seller Details:</strong><br>
+                    <%= data.sellerDetails.name %><br>
+                    <%= data.sellerDetails.address %>, <%= data.sellerDetails.city %>, <%= data.sellerDetails.state %> - <%= data.sellerDetails.pincode %><br>
+                    PAN: <%= data.sellerDetails.panNo %><br>
+                    GST Registration No: <%= data.sellerDetails.gstNo %>
+                </td>
+                <td>
+                    <img src="<%= data.logo %>" alt="Company Logo" width="150" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Billing Details:</strong><br>
+                    <%= data.billingDetails.name %><br>
+                    <%= data.billingDetails.address %>, <%= data.billingDetails.city %>, <%= data.billingDetails.state %> - <%= data.billingDetails.pincode %><br>
+                    State/UT Code: <%= data.billingDetails.stateCode %>
+                </td>
+                <td>
+                    <strong>Shipping Details:</strong><br>
+                    <%= data.shippingDetails.name %><br>
+                    <%= data.shippingDetails.address %>, <%= data.shippingDetails.city %>, <%= data.shippingDetails.state %> - <%= data.shippingDetails.pincode %><br>
+                    State/UT Code: <%= data.shippingDetails.stateCode %>
+                </td>
+            </tr>
+        </table>
+
+        <h3>Items</h3>
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th>Discount</th>
+                    <th>Net Amount</th>
+                    <th>Tax</th>
+                    <th>Total Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% data.items.forEach(item => {
+                  %>
+                  <tr>
+                      <td><%= item.description %></td>
+                      <td><%= item.unitPrice %></td>
+                      <td><%= item.quantity %></td>
+                      <td><%= item.discount %></td>
+                      <td><%= item.netAmount %></td>
+                      <td><%= item.taxType %> (<%= item.taxAmount %>)</td>
+                      <td><%= item.totalAmount %></td>
+                  </tr>
+                  <% }) %>
+              </tbody>
+          </table>
+  
+          <h3>Total</h3>
+          <table class="invoice-table">
+              <tr>
+                  <td><strong>Total Amount (in words):</strong></td>
+                  <td><%= data.totalAmountInWords %></td>
+              </tr>
+          </table>
+  
+          <br><br>
+          <p>For <%= data.sellerDetails.name %>:<br>
+          <img src="<%= data.signature %>" alt="Signature" width="100"><br>
+          Authorised Signatory</p>
+      </div>
+  </body>
+  </html>
+  
